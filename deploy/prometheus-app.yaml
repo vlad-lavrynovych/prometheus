@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-app
+  labels:
+    app: prometheus-app
+spec:
+  selector:
+    matchLabels:
+      app: prometheus-app
+  template:
+    metadata:
+      labels:
+        app: prometheus-app
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/actuator/prometheus"
+    spec:
+      containers:
+        - name: prometheus-app
+          image: vlavrynovych/prometheus
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-app-service
+  labels:
+    app: prometheus-app
+spec:
+  ports:
+    - protocol: TCP
+      name: http-traffic
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: prometheus-app
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: prometheus-app-service-monitor
+spec:
+  selector:
+    matchLabels:
+      app: prometheus-app
+  endpoints:
+    - port: http-traffic
+      path: "/actuator/prometheus"
