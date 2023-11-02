@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prometheus-app
+  name: spring-app
   labels:
-    app: prometheus-app
+    k8s-app: spring-app
 spec:
   selector:
     matchLabels:
-      app: prometheus-app
+      k8s-app: spring-app
   template:
     metadata:
       labels:
-        app: prometheus-app
+        k8s-app: spring-app
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
         prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
-        - name: prometheus-app
+        - name: spring-app
           image: vlavrynovych/prometheus
           imagePullPolicy: Always
           ports:
@@ -27,26 +27,33 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: prometheus-app-service
+  name: spring-app-service
   labels:
-    app: prometheus-app
+    k8s-app: spring-app
 spec:
   ports:
     - protocol: TCP
-      name: http-traffic
+      name: http
       port: 8080
       targetPort: 8080
   selector:
-    app: prometheus-app
+    k8s-app: spring-app
+status:
+  loadBalancer: {}
+
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: prometheus-app-service-monitor
+  name: spring-app-service-monitor
+  labels:
+    release: prometheus
+    k8s-app: spring-app-service-monitor
 spec:
+  endpoints:
+    - interval: 5s
+      targetPort: 8080
+      path: "/actuator/prometheus"
   selector:
     matchLabels:
-      app: prometheus-app
-  endpoints:
-    - port: http-traffic
-      path: "/actuator/prometheus"
+      k8s-app: spring-app

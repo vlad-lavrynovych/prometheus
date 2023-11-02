@@ -7,8 +7,4 @@ helm install mongodb-exporter prometheus-community/prometheus-mongodb-exporter
 helm repo update
 
 helm install prometheus prometheus-community/kube-prometheus-stack
-
-# kubectl apply -f mongodb.yaml
-# helm install mongodb-exporter prometheus-community/prometheus-mongodb-exporter -v mongodb-exporter.yaml
-
-
+kubectl apply -f deploy/spring-app.yaml

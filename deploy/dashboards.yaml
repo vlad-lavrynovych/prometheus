@@ -1,0 +1,4 @@
+dashboards:
+  default:
+     local-dashboard:
+       url: https://example.com/repository/test.json
