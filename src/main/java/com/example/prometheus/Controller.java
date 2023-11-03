@@ -15,7 +15,7 @@ public class Controller {
     @GetMapping("/")
     public String hello() {
         metrics.getSuccess().increment();
-        log.info("Request to hello endponint");
+        log.info("Request to hello endpoint");
         return "hello";
     }
 }
