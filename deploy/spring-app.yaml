@@ -3,15 +3,15 @@ kind: Deployment
 metadata:
   name: spring-app
   labels:
-    k8s-app: spring-app
+    app: spring-app
 spec:
   selector:
     matchLabels:
-      k8s-app: spring-app
+      app: spring-app
   template:
     metadata:
       labels:
-        k8s-app: spring-app
+        app: spring-app
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
@@ -29,7 +29,7 @@ kind: Service
 metadata:
   name: spring-app-service
   labels:
-    k8s-app: spring-app
+    app: spring-app
 spec:
   ports:
     - protocol: TCP
@@ -37,7 +37,7 @@ spec:
       port: 8080
       targetPort: 8080
   selector:
-    k8s-app: spring-app
+    app: spring-app
 status:
   loadBalancer: {}
 
@@ -48,7 +48,7 @@ metadata:
   name: spring-app-service-monitor
   labels:
     release: prometheus
-    k8s-app: spring-app-service-monitor
+    app: spring-app-service-monitor
 spec:
   endpoints:
     - interval: 5s
@@ -56,4 +56,4 @@ spec:
       path: "/actuator/prometheus"
   selector:
     matchLabels:
-      k8s-app: spring-app
+      app: spring-app

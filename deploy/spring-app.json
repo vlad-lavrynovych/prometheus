@@ -20,7 +20,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 6756,
   "graphTooltip": 0,
-  "id": 28,
+  "id": 59,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -122,6 +122,43 @@
       ],
       "title": "Custom request count panel",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "c48fdfce-d17b-4d34-873a-efc8d202307a"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 104,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "c48fdfce-d17b-4d34-873a-efc8d202307a"
+          },
+          "editorMode": "builder",
+          "expr": "{app=\"$application\"}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Logs",
+      "type": "logs"
     },
     {
       "collapsed": false,
@@ -1051,7 +1088,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 31
+        "y": 39
       },
       "hiddenSeries": false,
       "id": 80,
@@ -3501,8 +3538,8 @@
       {
         "current": {
           "selected": false,
-          "text": "10.244.0.10:8080",
-          "value": "10.244.0.10:8080"
+          "text": "10.244.0.24:8080",
+          "value": "10.244.0.24:8080"
         },
         "datasource": {
           "type": "prometheus",
@@ -3672,8 +3709,8 @@
     ]
   },
   "timezone": "",
-  "title": "spring-app",
+  "title": "spring-app-dashboard",
   "uid": "f85c7a9a-7314-4884-9f29-9ea0e6d1104a",
-  "version": 7,
+  "version": 2,
   "weekStart": ""
 }

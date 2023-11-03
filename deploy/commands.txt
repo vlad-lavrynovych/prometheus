@@ -1,10 +1,14 @@
 
+# should be run from root
 
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/
-helm install mongodb-exporter prometheus-community/prometheus-mongodb-exporter
+helm repo add grafana https://grafana.github.io/helm-charts
 
 helm repo update
 
 helm install prometheus prometheus-community/kube-prometheus-stack
 kubectl apply -f deploy/spring-app.yaml
+
+helm install --values deploy/loki.yaml loki grafana/loki
+helm install promtail grafana/promtail
