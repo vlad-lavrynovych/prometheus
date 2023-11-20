@@ -1,0 +1,43 @@
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 1m
+    route:
+      group_by: ['service']
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 10s
+      receiver: "telegram"
+      routes:
+        - match:
+            alertname: Watchdog
+          receiver: 'null'
+        - match:
+          receiver: 'telegram'
+          continue: true
+    receivers:
+      - name: 'null'
+      - name: "telegram"
+        telegram_configs:
+          #          - https://api.telegram.org/bot858790916:AAEgCpWN6d63Mc3Tul2e6fo8MmBa27Lv2nk/getUpdates
+          - bot_token: 858790916:AAEgCpWN6d63Mc3Tul2e6fo8MmBa27Lv2nk
+            api_url: https://api.telegram.org
+            chat_id: -1001758595181
+            parse_mode: ''
+
+#
+#additionalPrometheusRulesMap:
+#  spring-app-alert:
+#    groups:
+#      - name: spring-app
+#        rules:
+#          - alert: RequestLimit
+#            expr: sum(request_success_total[1m]) > 10
+#            for: 1m
+#            labels:
+#              severity: critical
+#              type: "service"
+#              environment: "dev"
+#            annotations:
+#              summary: "Total request count Limit Exceeded 10"
+#              description: "Total request count Exceeded the Limit on pod (> 10 / m)  VALUE = {{ $value }}  LABELS: {{ $labels }}"

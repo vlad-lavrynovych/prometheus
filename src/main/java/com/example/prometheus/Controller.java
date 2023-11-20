@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.awt.*;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -18,4 +20,5 @@ public class Controller {
         log.info("Request to hello endpoint");
         return "hello";
     }
-}
+
+ }

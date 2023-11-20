@@ -57,3 +57,31 @@ spec:
   selector:
     matchLabels:
       app: spring-app
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    app: spring-app
+    prometheus: kube-prometheus-stack-prometheus
+    release: prometheus
+    role: alert-rules
+  name: spring-app
+spec:
+  groups:
+    - name: "spring-app.rules"
+      rules:
+        - alert: PodDown
+          for: 1m
+          expr: sum(up{app="spring-app-service-monitor"}) < 1
+          annotations:
+            message: The deployment spring-app has less than 1 pod running.
+        - alert: RequestLimit
+          expr: sum_over_time(request_success_total{application="spring-app"}[30s]) > 10
+          for: 1m
+          labels:
+            severity: critical
+            type: "service"
+          annotations:
+            summary: "Total request count Limit Exceeded 10"
+            description: "Total request count Exceeded the Limit on pod (> 10 / m)  VALUE = {{ $value }}  LABELS: {{ $labels }}"
